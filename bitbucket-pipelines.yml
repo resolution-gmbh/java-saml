@@ -27,7 +27,7 @@ definitions:
         - case $BITBUCKET_BRANCH in prerelease*|support*|release*|maintenance*|hotfix*|master|develop) export VERSION_DETAIL=${SHORTREV} ;; esac
 
         # read the existing version
-        - export VERSION=$(printf 'VER\t${project.version}' | atlas-mvn help:evaluate | grep '^VER' | cut -f2)
+        - export VERSION=$(printf 'VER\t${project.version}' | -mvn help:evaluate | grep '^VER' | cut -f2)
 
         # Include the branch-name (or the appropriate fallback) in the version if it's a SNAPSHOT,
         #  e.g. 1.0.0-SNAPSHOT in branch feature/something is turned into 1.0.0-featuresomething-SNAPSHOT
@@ -38,9 +38,9 @@ definitions:
         - export VERSION=${FullVersionOverride:-$(echo ${VERSION} | sed -e 's/[^a-zA-Z0-9.-]/-/g' -e 's/-\{2,\}/-/g')}
 
         # Update the version
-        - atlas-mvn versions:set -DnewVersion=${VERSION}
+        - mvn versions:set -DnewVersion=${VERSION}
 
-        - atlas-mvn clean deploy -DnvdApiKey=$NVD_API_KEY
+        - mvn clean deploy -DnvdApiKey=$NVD_API_KEY
         - export BUILD_STATUS="{\"key\":\"build\", \"state\":\"SUCCESSFUL\", \"name\":\"${VERSION}\", \"url\":\"https://www.resolution.de\"}"
         - curl -H "Content-Type:application/json" -X POST --user "${BB_AUTH_STRING}" -d "${BUILD_STATUS}" "https://api.bitbucket.org/2.0/repositories/${BITBUCKET_REPO_OWNER}/${BITBUCKET_REPO_SLUG}/commit/${BITBUCKET_COMMIT}/statuses/build"
 
