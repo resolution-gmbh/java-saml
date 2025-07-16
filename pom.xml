@@ -16,6 +16,7 @@
 		<junitVersion>4.13.2</junitVersion>
 		<logbackVersion>1.5.3</logbackVersion>
 		<apacheCommonsLangVersion>3.18.0</apacheCommonsLangVersion>
+		<skipowasp>false</skipowasp>
 	</properties>
 
 	<modules>
@@ -93,27 +94,32 @@
 					</execution>
 				</executions>
 			</plugin>
+
 			<plugin>
 				<groupId>org.owasp</groupId>
 				<artifactId>dependency-check-maven</artifactId>
-				<version>10.0.4</version>
+				<version>12.1.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+
 				<configuration>
-					<!-- Added this to make build work whie fetching from https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-2005.meta fails -->
 					<failOnError>false</failOnError>
 					<failBuildOnCVSS>7</failBuildOnCVSS>
 					<suppressionFiles>
 						<suppressionFile>.nvd-suppressions.xml</suppressionFile>
 					</suppressionFiles>
 					<assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
+					<skipProvidedScope>true</skipProvidedScope>
+					<nvdApiKey>1fa676fe-c28b-42c8-aba8-0a7b0ae4f64f</nvdApiKey>
+					<skip>${skipowasp}</skip>
 				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					 </execution>
-				</executions>
 			</plugin>
+
 		</plugins>
 		<pluginManagement>
 			<plugins>
