@@ -1,4 +1,4 @@
-image: resolutiongmbh/atlassian-plugin-sdk-with-node:jdk11
+image: resolutiongmbh/dc-build-image
 
 clone:
   depth: full  # SonarCloud scanner needs the full history to assign issues properly
