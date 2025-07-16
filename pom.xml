@@ -152,15 +152,14 @@
 
 	<distributionManagement>
 		<!-- Resolution-internal repo, should be removed when opening a PR to the original repo -->
-			<repository>
-				<id>s3.release</id>
-				<url>s3://maven.resolution.de/release</url>
-			</repository>
-			<snapshotRepository>
-				<id>s3.snapshot</id>
-				<url>s3://maven.resolution.de/snapshot</url>
-			</snapshotRepository>
-
+        <repository>
+            <id>resolution.releases</id>
+            <url>https://maven.repo.reslab.de/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>resolution.snapshots</id>
+            <url>https://maven.repo.reslab.de/repositories/snapshots</url>
+            </snapshotRepository>
 	</distributionManagement>
 
 	<!---
